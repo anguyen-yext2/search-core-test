@@ -1,5 +1,5 @@
 {
-  "name": "@anguyen-yext2/search-core-test",
+  "name": "anguyen-search-core-test",
   "version": "1.0.0",
   "description": "Typescript Networking Library for the Yext Search API",
   "main": "./dist/commonjs/src/index.js",

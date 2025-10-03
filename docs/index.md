@@ -19,7 +19,7 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
-[@anguyen-yext2/search-core-test](./search-core-test.md)
+[anguyen-search-core-test](./anguyen-search-core-test.md)
 
 
 </td><td>
