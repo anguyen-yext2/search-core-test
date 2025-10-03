@@ -8,9 +8,9 @@ import initDirectAnswers from './initDirectAnswers';
 
 const coreConfig: SearchConfig = {
   apiKey: process.env.API_KEY,
-  experienceKey: 'developer-support-test',
+  experienceKey: 'max-test',
   locale: 'en',
-  experienceVersion: 'PRODUCTION',
+  experienceVersion: '59',
 };
 
 const element = document.createElement('pre');
