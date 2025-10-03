@@ -1,4 +1,4 @@
-import { provideCore, SearchConfig, SearchCore, UniversalSearchRequest, UniversalSearchResponse } from '@yext/search-core';
+import { provideCore, SearchConfig, SearchCore, UniversalSearchRequest, UniversalSearchResponse } from 'anguyen-search-core-test';
 import { verticalRequest, functionVerticalRequest } from './requests/verticalRequest';
 import universalRequest from './requests/universalRequest';
 import questionRequest from './requests/questionRequest';

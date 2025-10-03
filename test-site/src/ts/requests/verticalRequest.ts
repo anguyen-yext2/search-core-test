@@ -1,4 +1,4 @@
-import { QueryTrigger, VerticalSearchRequest } from '@yext/search-core';
+import { QueryTrigger, VerticalSearchRequest } from 'anguyen-search-core-test';
 
 export const verticalRequest: VerticalSearchRequest = {
   verticalKey: 'people',
