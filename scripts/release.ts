@@ -1,9 +1,9 @@
 /**
  * modified from https://github.com/vitejs/vite/blob/main/scripts/release.ts
  */
-import prompts from "prompts";
-import semver from "semver";
-import colors from "picocolors";
+import prompts from 'prompts';
+import semver from 'semver';
+import colors from 'picocolors';
 import {
   args,
   getLatestTag,
@@ -16,14 +16,14 @@ import {
   runIfNotDry,
   step,
   updateVersion,
-} from "./releaseUtils.js";
+} from './releaseUtils.js';
 
 let targetVersion: string | undefined;
 
 const { pkg }: { pkg: string } = await prompts({
-  type: "select",
-  name: "pkg",
-  message: "Select package",
+  type: 'select',
+  name: 'pkg',
+  message: 'Select package',
   choices: packages.map((i) => ({ value: i, title: i })),
 });
 
@@ -35,17 +35,17 @@ const { currentVersion, pkgName, pkgPath, pkgDir } = await getPackageInfo(pkg);
 
 if (!targetVersion) {
   const { release }: { release: string } = await prompts({
-    type: "select",
-    name: "release",
-    message: "Select release type",
+    type: 'select',
+    name: 'release',
+    message: 'Select release type',
     choices: getVersionChoices(currentVersion),
   });
 
-  if (release === "custom") {
+  if (release === 'custom') {
     const res: { version: string } = await prompts({
-      type: "text",
-      name: "version",
-      message: "Input custom version",
+      type: 'text',
+      name: 'version',
+      message: 'Input custom version',
       initial: currentVersion,
     });
     targetVersion = res.version;
@@ -61,16 +61,16 @@ if (!semver.valid(targetVersion)) {
 
 const tag = `${pkgName}@${targetVersion}`;
 
-if (targetVersion.includes("beta") && !args.tag) {
-  args.tag = "beta";
+if (targetVersion.includes('beta') && !args.tag) {
+  args.tag = 'beta';
 }
-if (targetVersion.includes("alpha") && !args.tag) {
-  args.tag = "alpha";
+if (targetVersion.includes('alpha') && !args.tag) {
+  args.tag = 'alpha';
 }
 
 const { yes }: { yes: boolean } = await prompts({
-  type: "confirm",
-  name: "yes",
+  type: 'confirm',
+  name: 'yes',
   message: `Releasing ${colors.yellow(tag)} Confirm?`,
 });
 
@@ -78,45 +78,45 @@ if (!yes) {
   process.exit();
 }
 
-step("\nUpdating package version...");
+step('\nUpdating package version...');
 updateVersion(pkgPath, targetVersion);
 
-step("\nGenerating changelog...");
+step('\nGenerating changelog...');
 const latestTag = await getLatestTag(pkgName);
 if (!latestTag) {
-  step("\nNo previous tag, skipping changelog generation.");
+  step('\nNo previous tag, skipping changelog generation.');
 } else {
   const sha = (
-    await run("git", ["rev-list", "-n", "1", latestTag], {
-      stdio: "pipe",
+    await run('git', ['rev-list', '-n', '1', latestTag], {
+      stdio: 'pipe',
     })
   ).stdout.trim();
 
-  const changelogArgs = ["generate-changelog", `${sha}..HEAD`];
-  await run("npx", changelogArgs, { cwd: pkgDir });
+  const changelogArgs = ['generate-changelog', `${sha}..HEAD`];
+  await run('npx', changelogArgs, { cwd: pkgDir });
 }
 
-const { stdout } = await run("git", ["diff"], { stdio: "pipe" });
+const { stdout } = await run('git', ['diff'], { stdio: 'pipe' });
 if (stdout) {
-  step("\nCommitting changes...");
-  await runIfNotDry("git", ["add", "-A"]);
-  await runIfNotDry("git", ["commit", "-m", `release: ${tag}`]);
-  await runIfNotDry("git", ["tag", tag]);
+  step('\nCommitting changes...');
+  await runIfNotDry('git', ['add', '-A']);
+  await runIfNotDry('git', ['commit', '-m', `release: ${tag}`]);
+  await runIfNotDry('git', ['tag', tag]);
 } else {
-  console.log("No changes to commit.");
+  console.log('No changes to commit.');
   process.exit();
 }
 
-step("\nPushing to GitHub...");
-await runIfNotDry("git", ["push", "origin", `refs/tags/${tag}`]);
-await runIfNotDry("git", ["push"]);
+step('\nPushing to GitHub...');
+await runIfNotDry('git', ['push', 'origin', `refs/tags/${tag}`]);
+await runIfNotDry('git', ['push']);
 
 if (isDryRun) {
-  console.log(`\nDry run finished - run git diff to see package changes.`);
+  console.log('\nDry run finished - run git diff to see package changes.');
 } else {
   console.log(
     colors.green(
-      "\nPushed, publishing should starts shortly on CI.\nhttps://github.com/anguyen-yext2/search-core-test/blob/main/.github/workflows/publish.yml"
+      '\nPushed, publishing should starts shortly on CI.\nhttps://github.com/anguyen-yext2/search-core-test/blob/main/.github/workflows/publish.yml'
     )
   );
 }
